@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HORA TEDDE — Controle de ponto</title>
+  <meta name="description" content="Registre entrada, almoço, saída, horas extras e fotos do relógio de ponto." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <div class="container hero-inner">
+      <div class="brand">
+        <div class="brand-text">
+          <h1>HORA TEDDE</h1>
+          <p>Controle de Ponto</p>
+        </div>
+      </div>
+      <button id="btnTema" class="btn btn-tema" aria-label="Alternar tema">🌙 Escuro</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Botões principais -->
+    <div class="botoes no-print">
+      <button id="btnAdicionar" class="btn btn-primario">+ Adicionar dia</button>
+      <button id="btnFolga" class="btn btn-accent">Folga</button>
+      <button id="btnExcel" class="btn btn-secundario">Exportar Excel</button>
+      <button id="btnPdf" class="btn btn-secundario">Exportar PDF</button>
+      <button id="btnImprimir" class="btn btn-secundario">Imprimir</button>
+      <button id="btnLimpar" class="btn btn-perigo">Limpar tudo</button>
+    </div>
+
+    <!-- Resumo -->
+    <div class="resumo">
+      <div class="card resumo-item">
+        <span class="resumo-titulo">Jornada</span>
+        <input type="time" id="jornada" value="08:00" class="jornada-input no-print" />
+        <span id="jornadaFixa" class="jornada-fixa"></span>
+      </div>
+      <div class="card resumo-item">
+        <span class="resumo-titulo">Trabalhadas</span>
+        <span class="resumo-valor" id="totalTrab">00:00</span>
+      </div>
+      <div class="card resumo-item">
+        <span class="resumo-titulo">Extras</span>
+        <span class="resumo-valor extra" id="totalExtra">00:00</span>
+      </div>
+    </div>
+
+    <p id="vazio" class="vazio">Nenhum dia ainda. Toque em “Adicionar dia”.</p>
+
+    <!-- Lista de dias -->
+    <div id="lista"></div>
+  </main>
+
+  <!-- Visualizar foto -->
+  <div id="modal" class="modal" hidden>
+    <img id="modalImg" alt="Foto do relógio de ponto" />
+  </div>
+
+  <footer>© 2026 HORA TEDDE - Todos os direitos reservados.</footer>
+  <p>© Desenvolvido por: Daniel Fealsi</p>
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
