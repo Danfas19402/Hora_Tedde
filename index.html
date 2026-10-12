@@ -2,74 +2,54 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b3a">
   <title>HORA TEDDE — Controle de ponto</title>
-  <meta name="description" content="Registre entrada, almoço, saída, horas extras e fotos do relógio de ponto." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-  <header class="hero">
-    <div class="container hero-inner">
-      <div class="brand">
-        <div class="brand-text">
-          <h1>HORA TEDDE</h1>
-          <p>Controle de Ponto</p>
-        </div>
+  <header class="topo">
+    <div class="limite topo-conteudo">
+      <div class="marca">
+        <img src="img/Foto 2.png" alt="Símbolo do HORA TEDDE">
+        <div><h1>HORA TEDDE</h1><p>Controle de ponto</p></div>
       </div>
-      <button id="btnTema" class="btn btn-tema" aria-label="Alternar tema">🌙 Escuro</button>
+      <button id="tema" class="botao botao-tema" type="button">🌙 Escuro</button>
     </div>
   </header>
 
-  <main class="container">
-    <!-- Botões principais -->
-    <div class="botoes no-print">
-      <button id="btnAdicionar" class="btn btn-primario">+ Adicionar dia</button>
-      <button id="btnFolga" class="btn btn-accent">Folga</button>
-      <button id="btnExcel" class="btn btn-secundario">Exportar Excel</button>
-      <button id="btnPdf" class="btn btn-secundario">Exportar PDF</button>
-      <button id="btnImprimir" class="btn btn-secundario">Imprimir</button>
-      <button id="btnLimpar" class="btn btn-perigo">Limpar tudo</button>
-    </div>
+  <main class="limite principal">
+    <section class="acoes" aria-label="Ações">
+      <button id="adicionar" class="botao primario" type="button">+ Adicionar dia</button>
+      <button id="folga" class="botao destaque" type="button">Folga</button>
+      <button id="excel" class="botao secundario" type="button">Exportar Excel</button>
+      <button id="pdf" class="botao secundario" type="button">Exportar PDF</button>
+      <button id="imprimir" class="botao secundario" type="button">Imprimir</button>
+      <button id="limpar" class="botao perigo" type="button">Limpar tudo</button>
+    </section>
 
-    <!-- Resumo -->
-    <div class="resumo">
-      <div class="card resumo-item">
-        <span class="resumo-titulo">Jornada</span>
-        <input type="time" id="jornada" value="08:00" class="jornada-input no-print" />
-        <span id="jornadaFixa" class="jornada-fixa"></span>
-      </div>
-      <div class="card resumo-item">
-        <span class="resumo-titulo">Trabalhadas</span>
-        <span class="resumo-valor" id="totalTrab">00:00</span>
-      </div>
-      <div class="card resumo-item">
-        <span class="resumo-titulo">Extras</span>
-        <span class="resumo-valor extra" id="totalExtra">00:00</span>
-      </div>
-    </div>
+    <section class="resumos">
+      <article class="resumo"><label for="jornada">Jornada</label><input id="jornada" type="time" value="08:00"></article>
+      <article class="resumo"><span>Trabalhadas</span><strong id="total-trabalhadas">00:00</strong></article>
+      <article class="resumo"><span>Extras</span><strong id="total-extras" class="verde">00:00</strong></article>
+    </section>
 
     <p id="vazio" class="vazio">Nenhum dia ainda. Toque em “Adicionar dia”.</p>
-
-    <!-- Lista de dias -->
-    <div id="lista"></div>
+    <section id="dias" class="lista" aria-live="polite"></section>
   </main>
 
-  <!-- Visualizar foto -->
-  <div id="modal" class="modal" hidden>
-    <img id="modalImg" alt="Foto do relógio de ponto" />
-  </div>
+  <footer class="rodape">
+    <div class="limite rodape-conteudo">
+      <img src="img/Foto 2.png" alt="Símbolo do HORA TEDDE">
+      <div><strong>HORA TEDDE</strong><p>© 2026 HORA TEDDE</p><p>© Desenvolvido por Daniel Fealsi</p></div>
+           
+  </footer>
 
-  <footer>© 2026 HORA TEDDE - Todos os direitos reservados.</footer>
-  <p>© Desenvolvido por: Daniel Fealsi</p>
-
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-  <script src="script.js"></script>
+  <dialog id="foto-grande"><button id="fechar-foto" type="button" aria-label="Fechar">×</button><img alt="Foto ampliada do relógio de ponto"></dialog>
 </body>
 </html>
