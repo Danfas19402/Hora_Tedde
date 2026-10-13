@@ -32,7 +32,7 @@ Tudo fica **no próprio aparelho**:
 | Dado | Onde |
 | --- | --- |
 | Dias e jornada | `localStorage` (`hora-tedde-dias`, `hora-tedde-jornada`, `hora-tedde-tema`) |
-| Fotos | IndexedDB (`hora-tedde-fotos`) |
+| Fotos | IndexedDB (`hora-tedde-logo.png`) |
 
 Nada sai para a internet e não há cadastro. Se você limpar os dados do navegador, os registros somem — exporte em Excel ou PDF antes.
 
