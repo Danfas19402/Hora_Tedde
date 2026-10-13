@@ -58,6 +58,3 @@ $('#fechar-foto').onclick=()=>$('#foto-grande').close(); $('#foto-grande').oncli
 const inicialEscuro=localStorage.getItem('hora-tedde-tema')==='escuro';document.documentElement.classList.toggle('escuro',inicialEscuro);$('#tema').textContent=inicialEscuro?'☀️ Claro':'🌙 Escuro';renderizar();
 
 
-
-
-
