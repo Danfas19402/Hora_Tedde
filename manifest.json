@@ -3,8 +3,10 @@
   "name": "HORA TEDDE - Controle de Horas Trabalhadas",
   "short_name": "HORA TEDDE",
   "description": "Aplicativo para controle de horas trabalhadas",
-  "start_url": "/HORA-TEDDE/",
-  "scope": "/HORA-TEDDE/",
+  
+"start_url": "/Hora_Tedde/",
+"scope": "/Hora_Tedde/",
+
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#168a45",
