@@ -51,6 +51,26 @@
       </div>
     </section>
 
+    <!-- CAIXA DE ANOTAÇÕES COMPARTILHADA -->
+<div class="anotacoes-container">
+  <h3>📝 Anotações e Relatos</h3>
+  
+  <!-- Área de exibição das mensagens -->
+  <div id="lista-anotacoes" class="lista-anotacoes">
+    <p class="sem-anotacao">Ainda não há anotações. Seja o primeiro a registrar!</p>
+  </div>
+
+  <!-- Formulário para enviar -->
+  <div class="form-anotacao">
+    <textarea 
+      id="campo-anotacao" 
+      placeholder="Descreva problemas, observações ou recados para a equipe..."
+      rows="3"
+    ></textarea>
+    <button id="btn-enviar-anotacao" class="btn-enviar">Enviar Anotação</button>
+  </div>
+</div>
+
     <p id="vazio" class="vazio">Nenhum dia ainda. Toque em “Adicionar dia”.</p>
     <section id="dias" class="lista"></section>
   </main>
