@@ -134,6 +134,92 @@ dialog img { display: block; max-width: 100%; max-height: 82vh; margin: auto; bo
 @media print { .topo, .acoes, .botoes-dia, .fotos, #vazio { display: none !important; }.principal { min-height: 0; }.resumos { margin-top: 0; }.dia, .resumo { box-shadow: none; }.rodape { margin-top: 20px; } }
 
 
+/* === CAIXA DE ANOTAÇÕES === */
+.anotacoes-container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 25px 0;
+  color: #e0e0e0;
+}
+
+.anotacoes-container h3 {
+  margin: 0 0 15px 0;
+  color: #90ee90;
+  font-size: 18px;
+}
+
+.lista-anotacoes {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding-right: 10px;
+}
+
+.lista-anotacoes::-webkit-scrollbar {
+  width: 6px;
+}
+.lista-anotacoes::-webkit-scrollbar-thumb {
+  background: #4CAF50;
+  border-radius: 3px;
+}
+
+.anotacao-item {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #4CAF50;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}
+
+.anotacao-data {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.sem-anotacao {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  padding: 10px;
+}
+
+.form-anotacao textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #4CAF50;
+  border-radius: 6px;
+  color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-anotacao textarea:focus {
+  outline: none;
+  border-color: #66ff66;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.btn-enviar {
+  background: linear-gradient(to right, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.btn-enviar:hover {
+  transform: scale(1.02);
+  background: linear-gradient(to right, #45a049, #4CAF50);
+}
+
 
 
 
