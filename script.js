@@ -57,117 +57,125 @@ $('#dias').addEventListener('click', async (e) => { const alvo=e.target; if (alv
 $('#fechar-foto').onclick=()=>$('#foto-grande').close(); $('#foto-grande').onclick=(e)=>{if(e.target===$('#foto-grande'))$('#foto-grande').close();};
 const inicialEscuro=localStorage.getItem('hora-tedde-tema')==='escuro';document.documentElement.classList.toggle('escuro',inicialEscuro);$('#tema').textContent=inicialEscuro?'☀️ Claro':'🌙 Escuro';renderizar();
 
-// ==========================================
-// SISTEMA DE ANOTAÇÕES COMPARTILHADAS
-// ==========================================
+// ==============================================
+// SISTEMA DE ANOTAÇÕES — PRONTO PARA USAR
+// ==============================================
 
-// 🔑 ID único do seu grupo — MUDE para um nome exclusivo seu!
-const ID_GRUPO_ANOTACOES = "hora-tedde-anotacoes-2026-seguro-12345";
+// 👇 COLE SOMENTE A SUA CHAVE DO JSONBIN AQUI
+const CHAVE_MESTRE = "$2a$10$4G2f06raI7nqOhUqRa4KEuNHlQa.2VjhNalPMfmvQQrDjmJZ7tVk2";
 
-// Carregar anotações ao abrir a página
-document.addEventListener('DOMContentLoaded', carregarAnotacoes);
+// ⚠️ NÃO ALTERE A LINHA ABAIXO — o sistema cria sozinho
+let ID_GRUPO_ANOTACOES = localStorage.getItem('id_grupo_anotacoes') || "";
 
-// Botão de envio
-document.getElementById('btn-enviar-anotacao').addEventListener('click', enviarAnotacao);
+document.addEventListener('DOMContentLoaded', async () => {
+  const lista = document.getElementById('lista-anotacoes');
 
-// Também envia com Ctrl + Enter
-document.getElementById('campo-anotacao').addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.key === 'Enter') enviarAnotacao();
+  // Verificar se a chave foi colocada
+  if (CHAVE_MESTRE === "COLE_SUA_CHAVE_AQUI") {
+    lista.innerHTML = `<p style="color:#ff9800; padding:15px; text-align:center;">
+      🔧 Coloque sua CHAVE do JSONBIN no código para começar!
+    </p>`;
+    return;
+  }
+
+  // 👇 CRIA O ARMAZENAMENTO AUTOMATICAMENTE SE NÃO EXISTIR
+  if (!ID_GRUPO_ANOTACOES) {
+    try {
+      const resCriar = await fetch('https://api.jsonbin.io/v3/b', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': CHAVE_MESTRE,
+          'X-Bin-Name': 'hora-tedde-anotacoes'
+        },
+        body: JSON.stringify({ anotacoes: [] })
+      });
+
+      if (!resCriar.ok) throw new Error("Falha ao criar");
+      const dados = await resCriar.json();
+      ID_GRUPO_ANOTACOES = dados.metadata.id;
+      
+      // GUARDA O CÓDIGO PARA NÃO PRECISAR MAIS FAZER NADA
+      localStorage.setItem('id_grupo_anotacoes', ID_GRUPO_ANOTACOES);
+      
+      lista.innerHTML = `<p style="color:#90ee90; padding:15px; text-align:center;">
+        ✅ Sistema pronto! Código: <code style="background:#000; padding:4px 8px; border-radius:4px;">${ID_GRUPO_ANOTACOES}</code><br>
+        Envie este código para quem vai usar também.
+      </p>`;
+      return;
+      
+    } catch (erro) {
+      lista.innerHTML = `<p style="color:#ff6b6b; padding:15px;">❌ Erro: ${erro.message}</p>`;
+      return;
+    }
+  }
+
+  // ✅ TUDO PRONTO — CARREGA E ATUALIZA
+  carregarAnotacoes();
+  setInterval(carregarAnotacoes, 30000); // Atualiza a cada 30 segundos
+
+  document.getElementById('btn-enviar-anotacao').addEventListener('click', enviarAnotacao);
+  document.getElementById('campo-anotacao').addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') enviarAnotacao();
+  });
 });
 
 async function carregarAnotacoes() {
   const lista = document.getElementById('lista-anotacoes');
-  
   try {
-    // Buscar dados compartilhados
-    const resposta = await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}/latest`);
-    
-    if (!resposta.ok) throw new Error('Sem dados ainda');
-    
-    const dados = await resposta.json();
-    const anotacoes = dados.record?.anotacoes || [];
-    
-    exibirAnotacoes(anotacoes);
-    
-  } catch (erro) {
-    // Se não existir ainda, mostra mensagem padrão
-    lista.innerHTML = '<p class="sem-anotacao">Ainda não há anotações. Seja o primeiro a registrar!</p>';
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}/latest`);
+    if (!res.ok) throw new Error("Sem anotações ainda");
+    const dados = await res.json();
+    exibirAnotacoes(dados.record?.anotacoes || []);
+  } catch {
+    lista.innerHTML = `<p class="sem-anotacao">Ainda não há anotações. Seja o primeiro a registrar!</p>`;
   }
 }
 
 async function enviarAnotacao() {
   const campo = document.getElementById('campo-anotacao');
   const texto = campo.value.trim();
-  
-  if (!texto) {
-    alert('Escreva algo antes de enviar!');
-    campo.focus();
-    return;
-  }
+  if (!texto) { alert("Escreva algo!"); campo.focus(); return; }
 
-  const novaAnotacao = {
+  const nova = {
     texto: texto,
     data: new Date().toLocaleString('pt-BR'),
-    autor: 'Usuário' // Você pode pedir o nome do usuário aqui
+    autor: 'Usuário'
   };
 
   try {
-    // Pegar lista atual
     let anotacoes = [];
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}/latest`);
-      if (res.ok) {
-        const dados = await res.json();
-        anotacoes = dados.record?.anotacoes || [];
-      }
-    } catch (e) {}
-
-    // Adicionar nova no topo
-    anotacoes.unshift(novaAnotacao);
-    
-    // Limitar a 50 mensagens para não ficar pesado
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}/latest`);
+    if (res.ok) {
+      const d = await res.json();
+      anotacoes = d.record?.anotacoes || [];
+    }
+    anotacoes.unshift(nova);
     if (anotacoes.length > 50) anotacoes = anotacoes.slice(0, 50);
 
-    // ⚠️ PRIMEIRA VEZ: Você precisa criar o "armazenamento" uma vez
-    // Depois de criado, troque o ID_GRUPO_ANOTACOES pelo código que receber
-    console.log('Anotação pronta para salvar:', anotacoes);
-    
-    // --- CÓDIGO DE SALVAMENTO ---
-    // Para uso completo, crie uma conta gratuita em https://jsonbin.io/
-    // Copie sua "Master Key" e substitua abaixo:
-    const CHAVE_MESTRE = 'COLE_SUA_CHAVE_AQUI'; // ← MUDE ISSO!
-    
-    if (CHAVE_MESTRE !== 'COLE_SUA_CHAVE_AQUI') {
-      await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': CHAVE_MESTRE
-        },
-        body: JSON.stringify({ anotacoes: anotacoes })
-      });
-    }
-    // ---------------------------
+    await fetch(`https://api.jsonbin.io/v3/b/${ID_GRUPO_ANOTACOES}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': CHAVE_MESTRE
+      },
+      body: JSON.stringify({ anotacoes })
+    });
 
-    // Atualizar visualização
     exibirAnotacoes(anotacoes);
     campo.value = '';
-    alert('✅ Anotação enviada com sucesso! Todos verão em instantes.');
-
+    alert("✅ Enviada! Todos verão em até 30 segundos.");
   } catch (erro) {
-    console.error('Erro ao enviar:', erro);
-    alert('Erro ao salvar. Tente novamente.');
+    alert("❌ Erro: " + erro.message);
   }
 }
 
 function exibirAnotacoes(lista) {
   const container = document.getElementById('lista-anotacoes');
-  
   if (lista.length === 0) {
-    container.innerHTML = '<p class="sem-anotacao">Ainda não há anotações. Seja o primeiro a registrar!</p>';
+    container.innerHTML = '<p class="sem-anotacao">Ainda não há anotações. Seja o primeiro!</p>';
     return;
   }
-
   container.innerHTML = lista.map(item => `
     <div class="anotacao-item">
       <div class="anotacao-data">${item.data} — ${item.autor}</div>
@@ -175,7 +183,3 @@ function exibirAnotacoes(lista) {
     </div>
   `).join('');
 }
-
-const CHAVE_MESTRE = '$2a$10$4G2f06raI7nqOhUqRa4KEuNHlQa.2VjhNalPMfmvQQrDjmJZ7tVk2';
-
-
