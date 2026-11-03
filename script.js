@@ -65,7 +65,7 @@ const inicialEscuro=localStorage.getItem('hora-tedde-tema')==='escuro';document.
 const CHAVE_MESTRE = "$2a$10$4G2f06raI7nqOhUqRa4KEuNHlQa.2VjhNalPMfmvQQrDjmJZ7tVk2";
 
 // ⚠️ NÃO ALTERE A LINHA ABAIXO — o sistema cria sozinho
-let ID_GRUPO_ANOTACOES = localStorage.getItem('id_grupo_anotacoes') || "";
+let ID_GRUPO_ANOTACOES = localStorage.getItem('id_grupo_anotacoes') || "6ae98ed6ffd5d16053a1a0b1";
 
 document.addEventListener('DOMContentLoaded', async () => {
   const lista = document.getElementById('lista-anotacoes');
