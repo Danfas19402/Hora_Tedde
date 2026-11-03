@@ -51,25 +51,27 @@
       </div>
     </section>
 
-    <!-- CAIXA DE ANOTAÇÕES COMPARTILHADA -->
+   <!-- CAIXA DE ANOTAÇÕES HORA TEDDE — ÁREA FIXA DE VISUALIZAÇÃO -->
 <div class="anotacoes-container">
   <h3>📝 Anotações e Relatos</h3>
-  
-  <!-- Área de exibição das mensagens -->
-  <div id="lista-anotacoes" class="lista-anotacoes">
-    <p class="sem-anotacao">Ainda não há anotações. Seja o primeiro a registrar!</p>
-  </div>
 
-  <!-- Formulário para enviar -->
+  <!-- CAMPO PARA ESCREVER -->
   <div class="form-anotacao">
     <textarea 
       id="campo-anotacao" 
-      placeholder="Descreva problemas, observações ou recados para a equipe..."
+      placeholder="Digite seu relato ou anotação aqui..."
       rows="3"
     ></textarea>
     <button id="btn-enviar-anotacao" class="btn-enviar">Enviar Anotação</button>
   </div>
+
+  <!-- ÁREA FIXA PARA VER TODAS AS ANOTAÇÕES — ABAIXO DO CAMPO -->
+  <h4 style="margin-top:18px;color:#b9f2b9">📋 Anotações enviadas:</h4>
+  <div id="lista-anotacoes" class="lista-anotacoes">
+    <p class="sem-anotacao">Nenhuma anotação registrada ainda.</p>
+  </div>
 </div>
+
 
     <p id="vazio" class="vazio">Nenhum dia ainda. Toque em “Adicionar dia”.</p>
     <section id="dias" class="lista"></section>
